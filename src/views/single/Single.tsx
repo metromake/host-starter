@@ -30,7 +30,9 @@ const Single = () => {
             </>
           )}
         </main>
-
+        {
+          // this a bit different than the example
+        }
         <Sidebar mediaItems={mediaItems} />
       </div>
     </>

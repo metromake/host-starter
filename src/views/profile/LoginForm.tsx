@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { useForm } from '@/hooks/formHooks';
-import { Credentials } from '@sharedTypes/DBTypes';
-// TODO: import useUserContext from mediastore mfe
+import { Button } from "@/components/ui/button";
+import { CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { useForm } from "@/hooks/formHooks";
+import { Credentials } from "@sharedTypes/DBTypes";
+import { useUserContext } from "mediastore/contextHooks";
 
 const LoginForm = () => {
   const { handleLogin } = useUserContext();
 
-  const initValues: Credentials = { username: '', password: '' };
+  const initValues: Credentials = { username: "", password: "" };
 
   const doLogin = async () => {
     handleLogin(inputs as Credentials);
@@ -17,7 +17,7 @@ const LoginForm = () => {
 
   const { handleSubmit, handleInputChange, inputs } = useForm(
     doLogin,
-    initValues,
+    initValues
   );
 
   return (

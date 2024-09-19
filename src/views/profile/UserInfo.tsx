@@ -10,8 +10,8 @@ import { useUserContext } from "mediastore/contextHooks";
 const UserInfo = () => {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [refresh, setRefresh] = useState(false);
-  const { user, handleLogout } = useUserContext();
-  const { getMediaByUser } = useMedia();
+  const { user, handleLogout, refreshMediaItems } = useUserContext();
+  const { getMediaByUser } = useMedia(refreshMediaItems);
 
   useEffect(() => {
     if (user) {

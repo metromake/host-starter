@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -8,54 +8,56 @@ import {
   DialogHeader,
   DialogTrigger,
   DialogClose,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useForm } from '@/hooks/formHooks';
-import { MediaItem } from '@sharedTypes/DBTypes';
-import { useState } from 'react';
-import { LuPen } from 'react-icons/lu';
-import { useMedia } from 'mediastore/apiHooks';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useForm } from "@/hooks/formHooks";
+import { MediaItem } from "@sharedTypes/DBTypes";
+import { useState } from "react";
+import { LuPen } from "react-icons/lu";
+import { useMedia } from "mediastore/apiHooks";
+import { useMediaContext } from "mediastore/contextHooks";
 
 const ModifyMedia = (props: {
   mediaItem: MediaItem;
   refreshMedia: () => void;
 }) => {
-  const { mediaItem, refreshMedia } = props;
+  const { mediaItem } = props;
   const { putMedia } = useMedia();
   const [open, setOpen] = useState(false);
+  const { refreshMedia } = useMediaContext();
 
-  const initValues: Pick<MediaItem, 'title' | 'description'> & {
+  const initValues: Pick<MediaItem, "title" | "description"> & {
     tags: string;
   } = {
     title: mediaItem.title,
     description: mediaItem.description,
-    tags: mediaItem.tags.join(', '),
+    tags: mediaItem.tags.join(", "),
   };
 
   const doModify = async () => {
     console.log(inputs);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        throw new Error('Token not found');
+        throw new Error("Token not found");
       }
       const mediaInput = {
         title: inputs.title,
         description: inputs.description,
-        tags: inputs.tags.split(',').map((tag) => tag.trim()),
+        tags: inputs.tags.split(",").map((tag) => tag.trim()),
       };
       await putMedia(mediaItem._id, mediaInput, token);
-      setOpen(false);
       refreshMedia();
+      setOpen(false);
     } catch (error) {
-      console.error('doModify failed', error);
+      console.error("doModify failed", error);
     }
   };
 
   const { handleSubmit, handleInputChange, inputs } = useForm(
     doModify,
-    initValues,
+    initValues
   );
 
   return (
